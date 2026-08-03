@@ -2,9 +2,7 @@
 
 import { pgTable, serial, text, integer, timestamp, boolean, primaryKey } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
-import { type AdapterAccount } from '@auth/core/adapters';
-
-// ============ NextAuth Tables ============
+import { type AdapterAccount } from '@auth/drizzle-adapter'; // There is no AdapterAccount in the @auth/drizzle-adapter package.
 
 export const users = pgTable('users', {
     id: text('id').primaryKey(),
