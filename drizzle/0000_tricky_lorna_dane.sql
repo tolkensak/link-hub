@@ -1,4 +1,5 @@
 CREATE TABLE "account" (
+	"id" text PRIMARY KEY NOT NULL,
 	"user_id" text NOT NULL,
 	"type" text NOT NULL,
 	"provider" text NOT NULL,
@@ -9,8 +10,7 @@ CREATE TABLE "account" (
 	"token_type" text,
 	"scope" text,
 	"id_token" text,
-	"session_state" text,
-	CONSTRAINT "account_provider_provider_account_id_pk" PRIMARY KEY("provider","provider_account_id")
+	"session_state" text
 );
 --> statement-breakpoint
 CREATE TABLE "links" (
@@ -37,7 +37,13 @@ CREATE TABLE "user" (
 	"email" text NOT NULL,
 	"email_verified" timestamp,
 	"image" text,
-	CONSTRAINT "user_email_unique" UNIQUE("email")
+	"username" text,
+	"bio" text,
+	"theme" text DEFAULT 'light',
+	"created_at" timestamp DEFAULT now(),
+	"updated_at" timestamp DEFAULT now(),
+	CONSTRAINT "user_email_unique" UNIQUE("email"),
+	CONSTRAINT "user_username_unique" UNIQUE("username")
 );
 --> statement-breakpoint
 CREATE TABLE "verification_token" (

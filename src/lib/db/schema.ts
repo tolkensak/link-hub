@@ -12,7 +12,7 @@ import {
 import { relations } from 'drizzle-orm';
 import { type AdapterAccount } from '@auth/core/adapters';
 
-// ============ NextAuth Tables (EXACT NAMES REQUIRED) ============
+// ============ NextAuth Tables (EXACT NAMES AND COLUMNS) ============
 
 export const users = pgTable('user', {
     id: text('id').primaryKey(),
@@ -20,9 +20,17 @@ export const users = pgTable('user', {
     email: text('email').unique().notNull(),
     emailVerified: timestamp('email_verified', { mode: 'date' }),
     image: text('image'),
+    // ✅ Add these for your app
+    username: text('username').unique(),
+    bio: text('bio'),
+    theme: text('theme').default('light'),
+    createdAt: timestamp('created_at').defaultNow(),
+    updatedAt: timestamp('updated_at').defaultNow(),
 });
 
 export const accounts = pgTable('account', {
+    // ✅ Add the id field as primary key
+    id: text('id').primaryKey(),
     userId: text('user_id')
         .notNull()
         .references(() => users.id, { onDelete: 'cascade' }),
@@ -36,9 +44,7 @@ export const accounts = pgTable('account', {
     scope: text('scope'),
     id_token: text('id_token'),
     session_state: text('session_state'),
-}, (account) => ({
-    compoundKey: primaryKey({ columns: [account.provider, account.providerAccountId] }),
-}));
+});
 
 export const sessions = pgTable('session', {
     sessionToken: text('session_token').primaryKey(),
