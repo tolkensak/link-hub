@@ -1,10 +1,10 @@
 // src/lib/auth.ts
-import NextAuth from 'next-auth';
+import NextAuth, { type AuthOptions } from 'next-auth';
 import GitHubProvider from 'next-auth/providers/github';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import { db } from './db';
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
   // ✅ Only pass the db instance - table names come from schema
   adapter: DrizzleAdapter(db),
   providers: [
