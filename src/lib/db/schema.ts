@@ -6,37 +6,34 @@ import {
     text,
     integer,
     timestamp,
-    boolean,
     primaryKey
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
-import { type AdapterAccount } from '@auth/core/adapters';
+import { v4 as uuidv4 } from 'uuid';
 
-// ============ NextAuth Tables (EXACT NAMES AND COLUMNS) ============
+// ============ NextAuth Tables (EXACT COLUMN NAMES) ============
 
-export const users = pgTable('user', {
-    id: text('id').primaryKey(),
+export const users = pgTable('users', {
+    id: text('id').primaryKey().$defaultFn(() => uuidv4()),
     name: text('name'),
     email: text('email').unique().notNull(),
-    emailVerified: timestamp('email_verified', { mode: 'date' }),
+    emailVerified: timestamp('emailVerified', { mode: 'date' }),  // ✅ camelCase
     image: text('image'),
-    // ✅ Add these for your app
     username: text('username').unique(),
     bio: text('bio'),
     theme: text('theme').default('light'),
-    createdAt: timestamp('created_at').defaultNow(),
-    updatedAt: timestamp('updated_at').defaultNow(),
+    createdAt: timestamp('createdAt').defaultNow(),              // ✅ camelCase
+    updatedAt: timestamp('updatedAt').defaultNow(),              // ✅ camelCase
 });
 
-export const accounts = pgTable('account', {
-    // ✅ Add the id field as primary key
-    id: text('id').primaryKey(),
-    userId: text('user_id')
+export const accounts = pgTable('accounts', {
+    id: text('id').primaryKey().$defaultFn(() => uuidv4()),
+    userId: text('userId')                                       // ✅ camelCase
         .notNull()
         .references(() => users.id, { onDelete: 'cascade' }),
-    type: text('type').$type<AdapterAccount['type']>().notNull(),
+    type: text('type').notNull(),
     provider: text('provider').notNull(),
-    providerAccountId: text('provider_account_id').notNull(),
+    providerAccountId: text('providerAccountId').notNull(),     // ✅ camelCase
     refresh_token: text('refresh_token'),
     access_token: text('access_token'),
     expires_at: integer('expires_at'),
@@ -46,15 +43,15 @@ export const accounts = pgTable('account', {
     session_state: text('session_state'),
 });
 
-export const sessions = pgTable('session', {
-    sessionToken: text('session_token').primaryKey(),
-    userId: text('user_id')
+export const sessions = pgTable('sessions', {
+    sessionToken: text('sessionToken').primaryKey(),            // ✅ camelCase
+    userId: text('userId')                                      // ✅ camelCase
         .notNull()
         .references(() => users.id, { onDelete: 'cascade' }),
     expires: timestamp('expires', { mode: 'date' }).notNull(),
 });
 
-export const verificationTokens = pgTable('verification_token', {
+export const verificationTokens = pgTable('verification_tokens', {
     identifier: text('identifier').notNull(),
     token: text('token').notNull(),
     expires: timestamp('expires', { mode: 'date' }).notNull(),
@@ -66,7 +63,7 @@ export const verificationTokens = pgTable('verification_token', {
 
 export const links = pgTable('links', {
     id: serial('id').primaryKey(),
-    userId: text('user_id')
+    userId: text('userId')                                      // ✅ camelCase
         .notNull()
         .references(() => users.id, { onDelete: 'cascade' }),
     title: text('title').notNull(),
@@ -74,8 +71,8 @@ export const links = pgTable('links', {
     icon: text('icon'),
     order: integer('order').default(0),
     clicks: integer('clicks').default(0),
-    createdAt: timestamp('created_at').defaultNow(),
-    updatedAt: timestamp('updated_at').defaultNow(),
+    createdAt: timestamp('createdAt').defaultNow(),             // ✅ camelCase
+    updatedAt: timestamp('updatedAt').defaultNow(),             // ✅ camelCase
 });
 
 // ============ Relations ============
