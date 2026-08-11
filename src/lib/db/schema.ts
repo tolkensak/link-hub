@@ -9,31 +9,31 @@ import {
     primaryKey
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';  // ✅ Verify this import
 
-// ============ NextAuth Tables (EXACT COLUMN NAMES) ============
+// ============ NextAuth Tables ============
 
 export const users = pgTable('users', {
     id: text('id').primaryKey().$defaultFn(() => uuidv4()),
     name: text('name'),
     email: text('email').unique().notNull(),
-    emailVerified: timestamp('emailVerified', { mode: 'date' }),  // ✅ camelCase
+    emailVerified: timestamp('emailVerified', { mode: 'date' }),
     image: text('image'),
     username: text('username').unique(),
     bio: text('bio'),
     theme: text('theme').default('light'),
-    createdAt: timestamp('createdAt').defaultNow(),              // ✅ camelCase
-    updatedAt: timestamp('updatedAt').defaultNow(),              // ✅ camelCase
+    createdAt: timestamp('createdAt').defaultNow(),
+    updatedAt: timestamp('updatedAt').defaultNow(),
 });
 
 export const accounts = pgTable('accounts', {
-    id: text('id').primaryKey().$defaultFn(() => uuidv4()),
-    userId: text('userId')                                       // ✅ camelCase
+    id: text('id').primaryKey().$defaultFn(() => uuidv4()),  // ✅ Must be here
+    userId: text('userId')
         .notNull()
         .references(() => users.id, { onDelete: 'cascade' }),
     type: text('type').notNull(),
     provider: text('provider').notNull(),
-    providerAccountId: text('providerAccountId').notNull(),     // ✅ camelCase
+    providerAccountId: text('providerAccountId').notNull(),
     refresh_token: text('refresh_token'),
     access_token: text('access_token'),
     expires_at: integer('expires_at'),
