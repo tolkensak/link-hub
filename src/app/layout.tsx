@@ -1,33 +1,26 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+// src/app/layout.tsx
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';  // ✅ Use Inter instead of Geist
+import './globals.css';  // ✅ Import the global CSS file
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ['latin'] });  // ✅ Use Inter
 
 export const metadata: Metadata = {
-  title: "Link-hub",
-  description: "Link-hub for managing your links and social media profiles",
+  title: 'link-hub',
+  description: 'Your personal link dashboard',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en">
+      <body className={inter.className}>
+        {children}
+      </body>
     </html>
   );
 }

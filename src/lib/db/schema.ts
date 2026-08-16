@@ -9,11 +9,11 @@ import {
     primaryKey
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
-import { v4 as uuidv4 } from 'uuid';  // ✅ Verify this import
+import { v4 as uuidv4 } from 'uuid';
 
-// ============ NextAuth Tables ============
+// ============ NextAuth Tables (USE SINGULAR NAMES) ============
 
-export const users = pgTable('users', {
+export const users = pgTable('user', {  // ✅ 'user' (singular)
     id: text('id').primaryKey().$defaultFn(() => uuidv4()),
     name: text('name'),
     email: text('email').unique().notNull(),
@@ -26,8 +26,8 @@ export const users = pgTable('users', {
     updatedAt: timestamp('updatedAt').defaultNow(),
 });
 
-export const accounts = pgTable('accounts', {
-    id: text('id').primaryKey().$defaultFn(() => uuidv4()),  // ✅ Must be here
+export const accounts = pgTable('account', {  // ✅ 'account' (singular)
+    id: text('id').primaryKey().$defaultFn(() => uuidv4()),
     userId: text('userId')
         .notNull()
         .references(() => users.id, { onDelete: 'cascade' }),
@@ -43,15 +43,15 @@ export const accounts = pgTable('accounts', {
     session_state: text('session_state'),
 });
 
-export const sessions = pgTable('sessions', {
-    sessionToken: text('sessionToken').primaryKey(),            // ✅ camelCase
-    userId: text('userId')                                      // ✅ camelCase
+export const sessions = pgTable('session', {  // ✅ 'session' (singular)
+    sessionToken: text('sessionToken').primaryKey(),
+    userId: text('userId')
         .notNull()
         .references(() => users.id, { onDelete: 'cascade' }),
     expires: timestamp('expires', { mode: 'date' }).notNull(),
 });
 
-export const verificationTokens = pgTable('verification_tokens', {
+export const verificationTokens = pgTable('verification_token', {  // ✅ 'verification_token' (singular)
     identifier: text('identifier').notNull(),
     token: text('token').notNull(),
     expires: timestamp('expires', { mode: 'date' }).notNull(),
@@ -63,7 +63,7 @@ export const verificationTokens = pgTable('verification_tokens', {
 
 export const links = pgTable('links', {
     id: serial('id').primaryKey(),
-    userId: text('userId')                                      // ✅ camelCase
+    userId: text('userId')
         .notNull()
         .references(() => users.id, { onDelete: 'cascade' }),
     title: text('title').notNull(),
@@ -71,8 +71,8 @@ export const links = pgTable('links', {
     icon: text('icon'),
     order: integer('order').default(0),
     clicks: integer('clicks').default(0),
-    createdAt: timestamp('createdAt').defaultNow(),             // ✅ camelCase
-    updatedAt: timestamp('updatedAt').defaultNow(),             // ✅ camelCase
+    createdAt: timestamp('createdAt').defaultNow(),
+    updatedAt: timestamp('updatedAt').defaultNow(),
 });
 
 // ============ Relations ============
