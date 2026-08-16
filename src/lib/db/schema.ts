@@ -1,19 +1,8 @@
-// src/lib/db/schema.ts
-
-import {
-    pgTable,
-    serial,
-    text,
-    integer,
-    timestamp,
-    primaryKey
-} from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, integer, timestamp, primaryKey } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
 
-// ============ NextAuth Tables (USE SINGULAR NAMES) ============
-
-export const users = pgTable('user', {  // ✅ 'user' (singular)
+export const users = pgTable('user', {
     id: text('id').primaryKey().$defaultFn(() => uuidv4()),
     name: text('name'),
     email: text('email').unique().notNull(),
@@ -26,11 +15,9 @@ export const users = pgTable('user', {  // ✅ 'user' (singular)
     updatedAt: timestamp('updatedAt').defaultNow(),
 });
 
-export const accounts = pgTable('account', {  // ✅ 'account' (singular)
+export const accounts = pgTable('account', {
     id: text('id').primaryKey().$defaultFn(() => uuidv4()),
-    userId: text('userId')
-        .notNull()
-        .references(() => users.id, { onDelete: 'cascade' }),
+    userId: text('userId').notNull().references(() => users.id, { onDelete: 'cascade' }),
     type: text('type').notNull(),
     provider: text('provider').notNull(),
     providerAccountId: text('providerAccountId').notNull(),
@@ -43,15 +30,13 @@ export const accounts = pgTable('account', {  // ✅ 'account' (singular)
     session_state: text('session_state'),
 });
 
-export const sessions = pgTable('session', {  // ✅ 'session' (singular)
+export const sessions = pgTable('session', {
     sessionToken: text('sessionToken').primaryKey(),
-    userId: text('userId')
-        .notNull()
-        .references(() => users.id, { onDelete: 'cascade' }),
+    userId: text('userId').notNull().references(() => users.id, { onDelete: 'cascade' }),
     expires: timestamp('expires', { mode: 'date' }).notNull(),
 });
 
-export const verificationTokens = pgTable('verification_token', {  // ✅ 'verification_token' (singular)
+export const verificationTokens = pgTable('verification_token', {
     identifier: text('identifier').notNull(),
     token: text('token').notNull(),
     expires: timestamp('expires', { mode: 'date' }).notNull(),
@@ -59,13 +44,9 @@ export const verificationTokens = pgTable('verification_token', {  // ✅ 'verif
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
 }));
 
-// ============ Your App Tables ============
-
 export const links = pgTable('links', {
     id: serial('id').primaryKey(),
-    userId: text('userId')
-        .notNull()
-        .references(() => users.id, { onDelete: 'cascade' }),
+    userId: text('userId').notNull().references(() => users.id, { onDelete: 'cascade' }),
     title: text('title').notNull(),
     url: text('url').notNull(),
     icon: text('icon'),
@@ -74,32 +55,3 @@ export const links = pgTable('links', {
     createdAt: timestamp('createdAt').defaultNow(),
     updatedAt: timestamp('updatedAt').defaultNow(),
 });
-
-// ============ Relations ============
-
-export const usersRelations = relations(users, ({ many }) => ({
-    accounts: many(accounts),
-    sessions: many(sessions),
-    links: many(links),
-}));
-
-export const accountsRelations = relations(accounts, ({ one }) => ({
-    user: one(users, {
-        fields: [accounts.userId],
-        references: [users.id],
-    }),
-}));
-
-export const sessionsRelations = relations(sessions, ({ one }) => ({
-    user: one(users, {
-        fields: [sessions.userId],
-        references: [users.id],
-    }),
-}));
-
-export const linksRelations = relations(links, ({ one }) => ({
-    user: one(users, {
-        fields: [links.userId],
-        references: [users.id],
-    }),
-}));
