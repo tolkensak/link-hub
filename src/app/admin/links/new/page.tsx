@@ -45,10 +45,8 @@ export default function NewLinkPage() {
 
     return (
         <div className="max-w-2xl mx-auto">
-            <div className="mb-6">
-                <Link href="/admin" className="text-blue-600 hover:underline">
-                    ← Back to Dashboard
-                </Link>
+            <div className="pt-4 pb-8">
+                <Link href="/admin" className="text-blue-600 hover:underline">← Back to Dashboard</Link>
             </div>
 
             <h1 className="text-2xl font-bold mb-6">Add New Link</h1>

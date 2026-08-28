@@ -84,19 +84,15 @@ export default function EditLinkPage() {
         return (
             <div className="text-center py-8 text-red-600">
                 <p>Error: {error}</p>
-                <Link href="/admin" className="text-blue-600 hover:underline mt-4 block">
-                    ← Back to Dashboard
-                </Link>
+                <Link href="/admin" className="text-blue-600 hover:underline mt-4 block">← Back to Dashboard</Link>
             </div>
         );
     }
 
     return (
         <div className="max-w-2xl mx-auto">
-            <div className="mb-6">
-                <Link href="/admin" className="text-blue-600 hover:underline">
-                    ← Back to Dashboard
-                </Link>
+            <div className="pt-4 pb-8">
+                <Link href="/admin" className="text-blue-600 hover:underline">← Back to Dashboard</Link>
             </div>
 
             <h1 className="text-2xl font-bold mb-6">Edit Link</h1>
