@@ -14,6 +14,8 @@ A modern, full-stack link management platform that allows users to create, organ
 
 **View the live application:** [https://link-hub-tan.vercel.app](https://link-hub-tan.vercel.app)
 
+![StartPage Screenshot](screenshots/StartPage.png "Start Page")
+
 <br />
 
 ## ✨ Features
