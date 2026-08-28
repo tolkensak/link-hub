@@ -1,6 +1,6 @@
 // src/lib/db/index.ts
 
-import 'server-only'; // ✅ Prevents this module from being imported in Client Components
+//import 'server-only'; // ✅ Prevents this module from being imported in Client Components
 
 import { drizzle } from 'drizzle-orm/neon-http';
 import { neon } from '@neondatabase/serverless';

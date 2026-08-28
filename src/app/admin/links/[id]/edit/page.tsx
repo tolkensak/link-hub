@@ -67,7 +67,8 @@ export default function EditLinkPage() {
                 throw new Error(data.error || 'Failed to update link');
             }
 
-            router.push('/admin');
+            router.replace('/admin');
+            router.refresh();
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Something went wrong');
         } finally {

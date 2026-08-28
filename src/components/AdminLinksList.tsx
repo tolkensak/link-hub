@@ -29,7 +29,8 @@ export default function AdminLinksList({ links }: { links: LinkData[] }) {
                 throw new Error('Failed to delete link');
             }
 
-            router.refresh(); // ✅ Refresh the page without reload
+            router.replace('/admin');
+            router.refresh();
         } catch (error) {
             console.error('Error deleting link:', error);
             alert('Failed to delete link');

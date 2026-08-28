@@ -34,7 +34,8 @@ export default function NewLinkPage() {
                 throw new Error(data.error || 'Failed to create link');
             }
 
-            router.push('/admin');
+            router.replace('/admin');
+            router.refresh();
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Something went wrong');
         } finally {
