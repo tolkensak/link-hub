@@ -1,26 +1,34 @@
 // src/app/layout.tsx
+import type { Metadata } from "next";
+import { Inter } from "next/font/google"; // ✅ Use Inter instead of Geist
+import "./globals.css";
+import { cn } from "@/lib/utils";
 
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';  // ✅ Use Inter instead of Geist
-import './globals.css';  // ✅ Import the global CSS file
-
-const inter = Inter({ subsets: ['latin'] });  // ✅ Use Inter
+const inter = Inter({
+    subsets: ["latin"],
+    variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
-  title: 'link-hub',
-  description: 'Your personal link dashboard',
+    title: "link-hub",
+    description: "Your personal link dashboard",
 };
 
 export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        {children}
-      </body>
-    </html>
-  );
+    children,
+}: Readonly<{
+    children: React.ReactNode;
+}>) {
+    return (
+        <html lang="en">
+            <body
+                className={cn(
+                    "min-h-screen bg-background font-sans antialiased",
+                    inter.variable,
+                )}
+            >
+                {children}
+            </body>
+        </html>
+    );
 }
