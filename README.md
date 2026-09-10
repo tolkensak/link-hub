@@ -1,11 +1,13 @@
 # 🔗 link-hub
 
-A modern, full-stack link management platform that allows users to create, organize, and share their personal link dashboard with the world. Built with Next.js, TypeScript, and PostgreSQL.
+A modern, full-stack link management platform that allows users to create, organize, and share their personal link dashboard with the world. Built with Next.js, TypeScript, PostgreSQL, and shadcn/ui.
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-View_App-4CAF50)](https://link-hub-tan.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-14.2.18-000000)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6)](https://www.typescriptlang.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-336791)](https://neon.tech/)
+[![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-Latest-000000)](https://ui.shadcn.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v3-38B2AC)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <br />
@@ -14,9 +16,9 @@ A modern, full-stack link management platform that allows users to create, organ
 
 **View the live application:** [https://link-hub-tan.vercel.app](https://link-hub-tan.vercel.app)
 
-**Screenshot: Start Page**
+**Screenshot: Landing Page**
 
-![StartPage Screenshot](screenshots/StartPage.png "Start Page")
+![StartPage Screenshot](screenshots/light-theme/LandingPage.png "Landing Page")
 
 <br />
 
@@ -38,12 +40,20 @@ A modern, full-stack link management platform that allows users to create, organ
 - **Real-time Click Tracking** — Click counts update instantly
 - **Clean Design** — Beautiful, responsive layout
 
+### 🎨 Modern UI with shadcn/ui
+- **Accessible Components** — Built on Radix UI primitives for keyboard navigation and screen readers
+- **Full Code Ownership** — Components are copied into the project for complete customization
+- **Tailwind CSS Native** — Seamless integration with the existing design system
+- **Dark Mode Ready** — CSS variables make theming effortless
+- **Consistent Design Language** — Buttons, cards, inputs, and labels all share a cohesive style
+
 ### 🛠️ Technical Highlights
 - **Full-Stack Next.js** — Server Components, API routes, and App Router
 - **Type Safety** — Full TypeScript coverage across the entire application
 - **Database** — PostgreSQL with Drizzle ORM
 - **Performance** — Optimized with React.memo, useCallback, and Suspense
 - **Responsive** — Works on all devices (mobile, tablet, desktop)
+- **Component Library** — shadcn/ui for accessible, customizable UI components
 
 <br />
 
@@ -52,37 +62,47 @@ A modern, full-stack link management platform that allows users to create, organ
 | Category | Technologies |
 |----------|--------------|
 | **Frontend** | Next.js 14, React, TypeScript, Tailwind CSS |
+| **UI Components** | shadcn/ui, Radix UI, Lucide Icons |
 | **Backend** | Next.js API Routes, NextAuth.js |
 | **Database** | PostgreSQL (Neon), Drizzle ORM |
+| **Styling** | Tailwind CSS v3, tailwind-merge, clsx |
 | **Deployment** | Vercel |
 | **Package Manager** | npm |
 
 <br />
 
 ## 📁 Project Structure
-
 ```
 link-hub/
 ├── src/
-│   ├── app/
-│   │   ├── admin/               # Protected admin dashboard
-│   │   │   ├── links/
-│   │   │   │   ├── new/         # Create new link
-│   │   │   │   └── [id]/edit/   # Edit existing link
-│   │   │   └── page.tsx
-│   │   ├── api/
-│   │   │   └── links/           # CRUD API routes
-│   │   ├── auth/
-│   │   │   └── signin/          # Login page
-│   │   ├── [userId]/            # Dynamic user profiles
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   ├── components/              # Reusable UI components
-│   ├── lib/
-│   │   └── db/                  # Database schema & connection
-│   └── types/                   # TypeScript type definitions
-├── drizzle/                     # Database migrations
-├── public/                      # Static assets
+│ ├── app/
+│ │ ├── admin/ # Protected admin dashboard
+│ │ │ ├── links/
+│ │ │ │ ├── new/ # Create new link
+│ │ │ │ └── [id]/edit/ # Edit existing link
+│ │ │ └── page.tsx
+│ │ ├── api/
+│ │ │ └── links/ # CRUD API routes
+│ │ ├── auth/
+│ │ │ └── signin/ # Login page
+│ │ ├── [userId]/ # Dynamic user profiles
+│ │ ├── layout.tsx
+│ │ └── page.tsx
+│ ├── components/
+│ │ ├── ui/ # shadcn/ui components
+│ │ │ ├── button.tsx
+│ │ │ ├── card.tsx
+│ │ │ ├── input.tsx
+│ │ │ └── label.tsx
+│ │ └── ... # Custom components
+│ ├── lib/
+│ │ ├── db/ # Database schema & connection
+│ │ └── utils.ts # shadcn/ui cn() helper
+│ └── types/ # TypeScript type definitions
+├── drizzle/ # Database migrations
+├── public/ # Static assets
+├── components.json # shadcn/ui configuration
+├── tailwind.config.js # Tailwind config with shadcn theme
 └── package.json
 ```
 
@@ -106,42 +126,41 @@ link-hub/
    ```
 
 2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
 3. **Set up environment variables**
-   
-   Create a `.env.local` file in the root directory:
-   ```env
-   # Database
-   DATABASE_URL="postgresql://..."
+    Create a `.env.local` file in the root directory:
+    ```env
+    # Database
+    DATABASE_URL="postgresql://..."
 
-   # NextAuth
-   NEXTAUTH_SECRET="your-secret-key"
-   NEXTAUTH_URL="http://localhost:3000"
+    # NextAuth
+    NEXTAUTH_SECRET="your-secret-key"
+    NEXTAUTH_URL="http://localhost:3000"
 
-   # GitHub OAuth
-   GITHUB_ID="your-github-client-id"
-   GITHUB_SECRET="your-github-client-secret"
-   ```
+    # GitHub OAuth
+    GITHUB_ID="your-github-client-id"
+    GITHUB_SECRET="your-github-client-secret"
+    ```
 
 4. **Set up the database**
-   ```bash
-   # Generate migrations
-   npx drizzle-kit generate
+    ```bash
+    # Generate migrations
+    npx drizzle-kit generate
 
-   # Push to database
-   npx drizzle-kit push
-   ```
+    # Push to database
+    npx drizzle-kit push
+    ```
 
 5. **Start the development server**
-   ```bash
-   npm run dev
-   ```
+    ```bash
+    npm run dev
+    ```
 
-6. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+**6. Open your browser**
+    Navigate to http://localhost:3000
 
 <br />
 
@@ -149,12 +168,13 @@ link-hub/
 
 ### Creating a GitHub OAuth App
 
-1. Go to [GitHub Developer Settings](https://github.com/settings/developers)
+1. Go to **GitHub Developer Settings**
 2. Click **"New OAuth App"**
 3. Fill in the details:
-   - **Application name:** `link-hub`
-   - **Homepage URL:** `http://localhost:3000` (development) or your Vercel URL
-   - **Authorization callback URL:** `http://localhost:3000/api/auth/callback/github`
+    - **Application name:** `link-hub`
+    - **Homepage URL:** http://localhost:3000 (development) or your Vercel URL
+    - **Authorization callback URL:** http://localhost:3000/api/auth/callback/github
+
 4. Copy the **Client ID** and **Client Secret** to your `.env.local`
 
 ### Managing Links
@@ -166,9 +186,43 @@ link-hub/
 
 ### Your Public Profile
 
-- Your profile is available at: `https://link-hub-tan.vercel.app/[your-user-id]`
+- Your profile is available at: https://link-hub-tan.vercel.app/[your-user-id]
 - Share this link with anyone to showcase your links
 - Click tracking is automatic — each click increments the counter
+
+<br />
+
+## 🎨 UI Components (shadcn/ui)
+This project uses shadcn/ui — a collection of beautifully designed, accessible components built on Radix UI and Tailwind CSS.
+
+### Why shadcn/ui?
+
+Unlike traditional component libraries, shadcn/ui copies the component code directly into your project. This means:
+
+- ✅ Full ownership — You can customize every component
+- ✅ No version lock-in — No forced upgrades
+- ✅ Accessibility built-in — Radix UI primitives are keyboard-navigable and screen-reader friendly
+- ✅ Tailwind native — Perfect fit with the existing design system
+
+### Available Components
+| Component	| Usage |
+| - | - |
+| Button	| Primary actions, forms, CTAs |
+| Card	| Container for grouped content |
+| Input	| Form text inputs |
+| Label	| Accessible form labels |
+
+### Adding More Components
+
+```bash
+npx shadcn@latest add [component-name]
+
+# Examples:
+npx shadcn@latest add dialog
+npx shadcn@latest add popover
+npx shadcn@latest add avatar
+npx shadcn@latest add badge
+```
 
 <br />
 
@@ -218,23 +272,25 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 
 ## 🙏 Acknowledgments
 
-- [Next.js](https://nextjs.org/) — The React framework for production
-- [Neon](https://neon.tech) — Serverless Postgres
-- [Drizzle](https://orm.drizzle.team) — Type-safe SQL ORM
-- [NextAuth.js](https://next-auth.js.org/) — Authentication for Next.js
-- [Tailwind CSS](https://tailwindcss.com/) — Utility-first CSS framework
+- Next.js — The React framework for production
+- Neon — Serverless Postgres
+- Drizzle — Type-safe SQL ORM
+- NextAuth.js — Authentication for Next.js
+- shadcn/ui — Beautiful, accessible UI components
+- Radix UI — Accessible UI primitives
+- Tailwind CSS — Utility-first CSS framework
 
 <br />
 
 ## 🔗 Links
 
-- **Live Demo:** [https://link-hub-tan.vercel.app](https://link-hub-tan.vercel.app)
-- **GitHub Repository:** [https://github.com/tolkensak/link-hub](https://github.com/tolkensak/link-hub)
-- **GitHub Portfolio:** [https://tolkensak.github.io/tolkensak](https://tolkensak.github.io/tolkensak)
-- **LinkedIn:** [https://www.linkedin.com/in/tolkyn-akhmetollauly-0a3873a9/](https://www.linkedin.com/in/tolkyn-akhmetollauly-0a3873a9/)
+- **Live Demo:** https://link-hub-tan.vercel.app
+- **GitHub Repository:** https://github.com/tolkensak/link-hub
+- **GitHub Portfolio:** https://tolkensak.github.io/tolkensak
+- **LinkedIn:** https://www.linkedin.com/in/tolkyn-akhmetollauly-0a3873a9/
 
 <br />
 
 ---
 
-Built with ❤️ by [Tolkyn Akhmetollauly](https://github.com/tolkensak)
+Built with ❤️ by Tolkyn Akhmetollauly
